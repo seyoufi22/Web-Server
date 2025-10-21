@@ -1,3 +1,0 @@
-/home/ahmed/Web-Server/build/CMakeFiles/web_server.dir
-/home/ahmed/Web-Server/build/CMakeFiles/edit_cache.dir
-/home/ahmed/Web-Server/build/CMakeFiles/rebuild_cache.dir
