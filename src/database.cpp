@@ -17,7 +17,7 @@ void init_database() {
     char* zErrMsg = 0;
     int rc;
 
-    rc = sqlite3_open("users.db", &db);
+    rc = sqlite3_open("/home/ahmed/WebServer/data/users.db", &db);
 
     if (rc) {
         std::cerr << "Can't open database: " << sqlite3_errmsg(db) << std::endl;
@@ -60,7 +60,7 @@ bool authenticate_user(const std::string& username, const std::string& password)
     sqlite3* db;
     int rc;
 
-    rc = sqlite3_open("users.db", &db);
+    rc = sqlite3_open("/home/ahmed/WebServer/data/users.db", &db);
 
     if (rc) {
         std::cerr << "Can't open database: " << sqlite3_errmsg(db) << std::endl;

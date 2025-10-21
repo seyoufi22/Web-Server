@@ -28,7 +28,7 @@ void handle_client(int client_socket) {
 
     if (method == "GET" && path == "/") {
         // Serve the login page
-        std::ifstream file("login.html");
+        std::ifstream file("/home/ahmed/WebServer/data/login.html");
         if (file) {
             std::stringstream file_buffer;
             file_buffer << file.rdbuf();

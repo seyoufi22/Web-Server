@@ -9,9 +9,6 @@ This is a basic C++ web server that serves a login page and authenticates users 
 * **Authentication**: Manages a `users.db` SQLite database for user storage.
 * **Login**: Authenticates users via a `POST` request to the `/login` route.
 * **Multithreaded**: Uses `std::thread` to manage each client connection separately.
-* **Default User**: The database is initialized with a default user:
-    * **Username**: `admin`
-    * **Password**: `password`
 
 ## Dependencies
 
@@ -61,11 +58,3 @@ sudo apt-get install build-essential cmake libsqlite3-dev
 6.  **Access the server:**
     Open your web browser and navigate to `http://localhost:8080`. You should see the login page.
 
-## Project Files
-
-* `server.cpp`: The main server logic, handles sockets and HTTP request parsing.
-* `database.cpp`: Functions for initializing and querying the SQLite database.
-* `database.h`: Header file for database functions.
-* `login.html`: The HTML, CSS, and JS for the login page.
-* `CMakeLists.txt`: The build script for CMake.
-* `users.db`: The SQLite database file.
