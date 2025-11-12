@@ -10,27 +10,27 @@
 #include <netinet/in.h>
 #include "database.h"
 
+using namespace std;
 const int PORT = 8080;
 const int BUFFER_SIZE = 1024;
 
-// Function to handle individual client connections
+//handle individual client connections
 void handle_client(int client_socket) {
     char buffer[BUFFER_SIZE] = {0};
     read(client_socket, buffer, BUFFER_SIZE);
 
-    std::string request(buffer);
-    std::stringstream ss(request);
-    std::string method, path, http_version;
+    string request(buffer);
+    stringstream ss(request);
+    string method, path, http_version;
     ss >> method >> path >> http_version;
     
-    std::string response;
-    std::string content;
+    string response, content;
 
     if (method == "GET" && path == "/") {
         // Serve the login page
-        std::ifstream file("/home/ahmed/WebServer/data/login.html");
+        ifstream file("/home/ahmed/WebServer/data/login.html");
         if (file) {
-            std::stringstream file_buffer;
+            stringstream file_buffer;
             file_buffer << file.rdbuf();
             content = file_buffer.str();
             response = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: " + std::to_string(content.length()) + "\r\n\r\n" + content;
@@ -41,13 +41,13 @@ void handle_client(int client_socket) {
         }
     } else if (method == "POST" && path == "/login") {
         // Handle login form submission
-        std::string body = request.substr(request.find("\r\n\r\n") + 4);
+        string body = request.substr(request.find("\r\n\r\n") + 4);
 
         // Very simple URL decoding for form data
         size_t user_pos = body.find("username=") + 9;
         size_t pass_pos = body.find("&password=") + 10;
-        std::string username = body.substr(user_pos, pass_pos - user_pos - 10);
-        std::string password = body.substr(pass_pos);
+        string username = body.substr(user_pos, pass_pos - user_pos - 10);
+        string password = body.substr(pass_pos);
 
         if (authenticate_user(username, password)) {
             content = "<h1>Login Successful</h1>";
@@ -99,7 +99,7 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    std::cout << "Server listening on port " << PORT << std::endl;
+    cout << "Server listening on port " << PORT << std::endl;
 
     while (true) {
         if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
@@ -108,7 +108,7 @@ int main() {
         }
 
         // Create a new thread to handle the client
-        std::thread client_thread(handle_client, new_socket);
+        thread client_thread(handle_client, new_socket);
         client_thread.detach(); // run independently
     }
 
