@@ -5,7 +5,7 @@
 #include <fstream>
 #include <thread>
 #include <vector>
-#include <unistd.h> // Required for getcwd
+#include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include "database.h"
@@ -22,7 +22,7 @@ void handle_client(int client_socket) {
     std::stringstream ss(request);
     std::string method, path, http_version;
     ss >> method >> path >> http_version;
-
+    
     std::string response;
     std::string content;
 
@@ -66,7 +66,6 @@ void handle_client(int client_socket) {
 }
 
 int main() {
-    // Initialize the database
     init_database();
     int server_fd, new_socket;
     struct sockaddr_in address;
@@ -100,20 +99,9 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    // *** UPDATED SECTION FOR DIAGNOSTICS ***
-    // Print the current working directory to help debug file path issues.
-    char cwd[1024];
-    if (getcwd(cwd, sizeof(cwd)) != NULL) {
-        std::cout << "Current working directory is: " << cwd << std::endl;
-    } else {
-        perror("getcwd() error");
-    }
-    // ****************************************
-
     std::cout << "Server listening on port " << PORT << std::endl;
 
     while (true) {
-        // Accept an incoming connection
         if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
             perror("accept");
             continue; // Continue to the next iteration
@@ -121,7 +109,7 @@ int main() {
 
         // Create a new thread to handle the client
         std::thread client_thread(handle_client, new_socket);
-        client_thread.detach(); // Detach the thread to run independently
+        client_thread.detach(); // run independently
     }
 
     return 0;
